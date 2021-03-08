@@ -8,6 +8,8 @@ With this plugin end-users on an DirectAdmin server can easliy add and remove am
 This plugin works on every DirectAdmin server, but will only verify amazon ses on domains. You will still need to let exim send through it.
 
 ## Plugin installation
+Simply download our [latest release](https://github.com/PayRequest/Amazon-SES-Directadmin-Hook/releases) and upload it.
+Or: 
 ```
 cd /usr/local/directadmin/plugins
 git clone https://github.com/PayRequest/Amazon-SES-Directadmin-Hook.git amazon_ses
@@ -18,6 +20,8 @@ sh amazon_ses/scripts/install.sh
 By default, the plugin is working out-of-the box. However the admin needs to setup their API credentials.
 
 # Update
+Next update will include auto update.
+For now you could pull the source or download the release and replace it.
 ```
 cd /usr/local/directadmin/plugins/amazon_ses
 git pull
