@@ -1,0 +1,62 @@
+#!/usr/local/bin/php -c/usr/local/directadmin/plugins/amazon_ses/php/php.ini
+
+<?php
+require_once dirname(__DIR__) . '/php/bootstrap.php';
+
+$amazonController = new \DirectAdmin\AmazonSes\Controllers\AmazonsesController;
+
+if(isset($_GET['ADDDOMAIN'])){
+    $amazonController->setFirstStep($_GET['ADDDOMAIN']);
+echo '<div style="font-weight: bold;background:green;color:white;padding:10px;">Added!</div>';
+}
+if(isset($_GET['DKIMDOMAIN'])){
+$amazonController->setDkims($_GET['ADDDOMAIN']);
+echo '<div style="font-weight: bold;background:green;color:white;padding:10px;">DKIM's set!</div>';
+}
+
+//$domains = $amazonController->getDomains(getenv('USERNAME'));
+$domains = $amazonController->getDomainsAndStatus(getenv('USERNAME'));
+
+if($domains)
+{
+    echo '<table class="list table-highlight" cellpadding="3" cellspacing="1">
+    <tbody>
+    <tr>
+        <td class="listtitle">Domain</td>
+        <td class="listtitle">Status</td>
+        <td class="listtitle">Actions</td>
+    </tr>';
+
+    foreach($domains as $domain => $_status)
+    {
+        switch($_status){
+            case "pending":
+                $status = '<span style="color:orange;font-weight: bold;">Pending</span>';
+            break;
+            case "success":
+                $status = '<span style="color:green;font-weight: bold;">Verified</span>';
+            break;
+            case "invalid":
+                $status = '<span style="color:red;font-weight: bold;">Invalid</span>';
+            break;
+        }
+        echo '<tr>
+            <td valign="top" class="list">'.$domain.'</td>
+            <td valign="top" class="list">'.$status.'</td>
+            <td valign="top" class="list">';
+                if($_status=="pending")
+                echo '<a href="/CMD_PLUGINS/amazon_ses/?ADDDOMAIN='.$domain.'">Add</a>';
+                if($_status=="invalid")
+                echo '<a href="/CMD_PLUGINS/amazon_ses/?ADDDOMAIN='.$domain.'">Retry</a>';
+                if($_status=="success")
+                echo '<a href="/CMD_PLUGINS/amazon_ses/?DKIMDOMAIN='.$domain.'">(re)set DKIMs</a>';
+        echo'</td></tr>';
+    }
+
+    echo '</tbody></table>';
+}
+else
+{
+    echo '<p>No domains created yet.</p>';
+}
+?>
