@@ -262,12 +262,15 @@ class AmazonsesController
 	public function getFirstStep($domain)
 	{
 		$this->connectAws();
-		$this->sesClient->verifyDomainIdentity(['Domain' => $domain]);
-		$this->sesClient->verifyDomainDkim(['Domain' => $domain]);
-		$result = $this->sesClient->getIdentityVerificationAttributes(['Identities' => [$domain]]);
+		try {
+			$this->sesClient->verifyDomainIdentity(['Domain' => $domain]);
+			$this->sesClient->verifyDomainDkim(['Domain' => $domain]);
+			$result = $this->sesClient->getIdentityVerificationAttributes(['Identities' => [$domain]]);
+		}catch(Exception $e){
+			return '';
+		}
 		return $result['VerificationAttributes'][$domain]['VerificationToken'];
 	}
-	
 	
 	/**
 	 * @param $domain
