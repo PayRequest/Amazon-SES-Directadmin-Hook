@@ -20,8 +20,8 @@ sh amazon_ses/scripts/install.sh
 By default, the plugin is working out-of-the box. However the admin needs to setup their API credentials.
 
 # Update
-Next update will include auto update.
-For now you could pull the source or download the release and replace it.
+The plugin has the possibility to auto update.  
+Or use the following code:
 ```
 cd /usr/local/directadmin/plugins/amazon_ses
 git pull
