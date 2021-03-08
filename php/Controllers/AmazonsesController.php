@@ -267,7 +267,7 @@ class AmazonsesController
 			$this->sesClient->verifyDomainDkim(['Domain' => $domain]);
 			$result = $this->sesClient->getIdentityVerificationAttributes(['Identities' => [$domain]]);
 		}catch(Exception $e){
-			return '';
+			return $e->getMessage();
 		}
 		return $result['VerificationAttributes'][$domain]['VerificationToken'];
 	}
