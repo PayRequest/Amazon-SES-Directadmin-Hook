@@ -46,7 +46,7 @@ class AmazonsesController
 	    $_config = file_get_contents($this->_basePath . '/data/amazon.conf');
 	    preg_match_all('/(.*)=(.*)/m', $_config, $configs, PREG_SET_ORDER, 0);
 	    foreach($configs as $match)
-		    $this->_config[$match[1]] = $match[2];
+		    $this->_config[$match[1]] = trim($match[2]);
 
         if(!empty($this->_config)){
 	        $domainlist = ['admin'=>[]];
@@ -180,8 +180,14 @@ class AmazonsesController
 	}
 	
 	public function connectAws(){
-		$credentials = new Credentials($this->_config['access_key_id'], $this->_config['secret_access_key']);
-		$this->sesClient = new \Aws\Ses\SesClient(['version' => 'latest', 'credentials' => $credentials, 'region' => $this->_config['region']]);
+		try{
+			$credentials = new Credentials($this->_config['access_key_id'], $this->_config['secret_access_key']);
+			$check = $credentials->isExpired();
+			$this->sesClient = new \Aws\Ses\SesClient(['version' => 'latest', 'credentials' => $credentials, 'region' => $this->_config['region']]);
+			$this->sesClient->verifyDomainIdentity(['Domain' => 'payrequest.io']);
+		}catch(Exception $e){
+			throw new Exception('Amazon SES Credentials incorrect!');
+		}
 	}
 	
     /**
@@ -277,13 +283,16 @@ class AmazonsesController
 	 *
 	 * @return array
 	 */
-	public function getDkims($domain): array
+	public function getDkims($domain,$raw=false): array
 	{
 		$this->connectAws();
 		$this->sesClient->verifyDomainIdentity(['Domain' => $domain]);
 		$result = $this->sesClient->verifyDomainDkim(['Domain' => $domain]);
 		$response = [];
 		foreach($result->get('DkimTokens') as $dkim){
+			if($raw)
+				$response[] = $dkim;
+			else
 				$response[$dkim.'._domainkey'] = $dkim.'.dkim.amazonses.com';
 		}
 		return $response;

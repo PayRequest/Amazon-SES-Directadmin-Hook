@@ -7,9 +7,16 @@ $amazonsesController = new \DirectAdmin\AmazonSes\Controllers\AmazonsesControlle
 
 if(isset($_POST['access_key_id'])){
     $amazonsesController->setConfig($_POST);
-echo '<div style="font-weight: bold;color:green;">Saved!</div>';
+    echo '<div style="font-weight: bold;color:green;">Saved!</div>';
 }
 $config = $amazonsesController->getConfig();
+if(!empty($config['access_key_id'])){
+    try{
+        $amazonsesController->connectAws();
+    }catch(Exception $e){
+        echo '<div style="font-weight: bold;color:red;">Amazon SES credentials incorrect!</div>';
+    }
+}
 ?>
 <form method="post">
 <label for="access_key_id">
