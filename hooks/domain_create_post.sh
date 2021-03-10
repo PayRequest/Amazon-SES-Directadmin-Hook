@@ -15,9 +15,9 @@ dkim3=$(php -f /usr/local/directadmin/plugins/amazon_ses/php/Hooks/domain_dkim.p
 cd $named_dir || exit
 
 echo "_amazonses.$domain. 3600    IN      TXT     \"$txt_value\"" >> $domain.db
-echo "$dkim1._domainkey.$domain. 3600    IN      TXT     \"$dkim1.dkim.amazonses.com\"" >> $domain.db
-echo "$dkim2._domainkey.$domain. 3600    IN      TXT     \"$dkim2.dkim.amazonses.com\"" >> $domain.db
-echo "$dkim3._domainkey.$domain. 3600    IN      TXT     \"$dkim3.dkim.amazonses.com\"" >> $domain.db
+echo "$dkim1._domainkey.$domain. 3600    IN      CNAME     \"$dkim1.dkim.amazonses.com.\"" >> $domain.db
+echo "$dkim2._domainkey.$domain. 3600    IN      CNAME     \"$dkim2.dkim.amazonses.com.\"" >> $domain.db
+echo "$dkim3._domainkey.$domain. 3600    IN      CNAME     \"$dkim3.dkim.amazonses.com.\"" >> $domain.db
 
 echo "Updating serials in named files"
 echo "action=rewrite&value=named" >> /usr/local/directadmin/data/task.queue
