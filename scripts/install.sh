@@ -9,3 +9,5 @@ chmod -R 0777 /usr/local/directadmin/plugins/amazon_ses/hooks/*
 chmod -R 0777 /usr/local/directadmin/plugins/amazon_ses/php/Hooks/*
 
 chown -R diradmin:diradmin /usr/local/directadmin/plugins/amazon_ses/*
+
+exit 0;
