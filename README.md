@@ -17,7 +17,7 @@ sh amazon_ses/scripts/install.sh
 ```
 
 # Configuration
-By default, the plugin is working out-of-the box. However the admin needs to setup their API credentials.
+By default, the plugin will work out-of-the box. However the admin needs to setup their API credentials.
 
 # Update
 The plugin has the possibility to auto update.  
@@ -27,17 +27,18 @@ cd /usr/local/directadmin/plugins/amazon_ses
 git pull
 ```
 
-# Screenshots 
-Coming soon
-
-# Todo
-- Add Vue layout and make a nice UI.
-- Check if _amazonses record has been set but not verified, different status
+# Wishlist
+- Improve UI
+- Better error/status handling
 - Cloudflare integration
+- Want something else? Let us know!
 
 # Sponsors
 ![alt text](https://hostingvergelijker.nl/wp-content/uploads/webdiensten-zzp.png "Webdiensten ZZP")  
 [Webdiensten ZZP](https://github.com/lutjebroeker)
+
+Want to thank us? Use our own system haha
+https://payrequest.me/payrequest
 
 # License
 ![Creative Commons Attribution 4.0 International License](https://i.creativecommons.org/l/by/4.0/88x31.png)  
