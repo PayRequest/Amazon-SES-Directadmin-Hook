@@ -184,7 +184,7 @@ class AmazonsesController
 			$credentials = new Credentials($this->_config['access_key_id'], $this->_config['secret_access_key']);
 			$check = $credentials->isExpired();
 			$this->sesClient = new \Aws\Ses\SesClient(['version' => 'latest', 'credentials' => $credentials, 'region' => $this->_config['region']]);
-			$this->sesClient->verifyDomainIdentity(['Domain' => 'payrequest.io']);
+			$this->sesClient->listVerifiedEmailAddresses();
 		}catch(Exception $e){
 			throw new Exception('Amazon SES Credentials incorrect!');
 		}
